@@ -1,7 +1,6 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
 
 const pageMotion = {
   initial: {
@@ -33,12 +32,10 @@ const pageMotion = {
 };
 
 export function MotionProvider({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key={pathname}
+        key="root"
         className="relative z-10"
         initial="initial"
         animate="animate"
