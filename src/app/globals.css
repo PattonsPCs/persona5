@@ -1,26 +1,189 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --p5r-red: #d10000;
+  --p5r-black: #000000;
+  --p5r-white: #ffffff;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-p5r-red: var(--p5r-red);
+  --color-p5r-black: var(--p5r-black);
+  --color-p5r-white: var(--p5r-white);
+  --font-display: var(--font-display);
+  --font-calling: var(--font-calling);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes star-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-40px, -30px, 0);
   }
 }
 
+@keyframes halftone-shift {
+  0% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes ui-jitter {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate3d(0.5px, -0.5px, 0) rotate(-0.08deg);
+  }
+  50% {
+    transform: translate3d(-0.4px, 0.3px, 0) rotate(0.06deg);
+  }
+  75% {
+    transform: translate3d(0.3px, 0.4px, 0) rotate(-0.04deg);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.p5r-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  isolation: isolate;
+  background: radial-gradient(
+      ellipse 120% 80% at 50% 0%,
+      rgba(209, 0, 0, 0.45) 0%,
+      transparent 55%
+    ),
+    linear-gradient(180deg, #0a0000 0%, #000000 45%, #050000 100%);
+}
+
+/* Local atmospheric layer (public/download.jpg) */
+.p5r-bg-photo {
+  position: absolute;
+  inset: -8%;
+  z-index: 0;
+  background: url("/download.jpg") center center / cover no-repeat;
+  opacity: 0.42;
+  filter: blur(56px) saturate(1.15) contrast(1.05);
+  transform: scale(1.08);
+}
+
+.p5r-bg-stars {
+  position: absolute;
+  inset: -20%;
+  z-index: 1;
+  background-image: radial-gradient(
+      1.5px 1.5px at 20% 30%,
+      rgba(255, 255, 255, 0.35) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1px 1px at 70% 60%,
+      rgba(255, 255, 255, 0.25) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1.2px 1.2px at 40% 80%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1px 1px at 85% 20%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1.5px 1.5px at 10% 70%,
+      rgba(255, 255, 255, 0.22) 50%,
+      transparent 51%
+    );
+  background-size: 280px 280px, 320px 320px, 260px 260px, 300px 300px,
+    340px 340px;
+  animation: star-drift 28s linear infinite;
+  opacity: 0.85;
+}
+
+.p5r-halftone {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: radial-gradient(
+    circle at center,
+    rgba(209, 0, 0, 0.22) 0.5px,
+    transparent 0.6px
+  );
+  background-size: 5px 5px;
+  mix-blend-mode: multiply;
+  animation: halftone-shift 6s ease-in-out infinite;
+}
+
+.p5r-jagged {
+  clip-path: polygon(
+    0% 3%,
+    2% 0%,
+    40% 0%,
+    42% 2%,
+    58% 2%,
+    60% 0%,
+    98% 0%,
+    100% 4%,
+    100% 96%,
+    98% 100%,
+    62% 100%,
+    60% 98%,
+    40% 98%,
+    38% 100%,
+    2% 100%,
+    0% 97%
+  );
+}
+
+.p5r-skew {
+  transform: skewX(-5deg);
+}
+
+@media (max-width: 767px) {
+  .p5r-skew {
+    transform: skewX(0deg);
+  }
+}
+
+.animate-ui-jitter {
+  animation: ui-jitter 4.2s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-y 5s ease-in-out infinite;
+}
+
+.font-display {
+  font-family: var(--font-display), Impact, "Arial Narrow", sans-serif;
+}
+
+.font-calling {
+  font-family: var(--font-calling), "Courier New", monospace;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: var(--p5r-black);
+  color: var(--p5r-white);
   font-family: Arial, Helvetica, sans-serif;
 }
